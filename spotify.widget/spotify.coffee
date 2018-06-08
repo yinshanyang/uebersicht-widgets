@@ -1,4 +1,4 @@
-command: 'nowplaying.widget/lib/nowplaying.sh'
+command: 'spotify.widget/lib/spotify.sh'
 
 refreshFrequency: 5000
 
