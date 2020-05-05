@@ -7,7 +7,7 @@ export const command = 'osascript spotify.widget/lib/spotify.applescript'
 export const className = `
   user-select: none;
   top: 1px;
-  left: 72px;
+  left: 112px;
   color: rgba(236, 239, 244, 0.4);
   font-family: FiraCode-Medium;
   font-size: 12px;

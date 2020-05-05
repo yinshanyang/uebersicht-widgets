@@ -1,7 +1,7 @@
 import { css } from 'uebersicht'
 
 export const refreshFrequency = 60 * 1000
-export const command = 'date +%H%M'
+export const command = 'date +%m%d%H%M'
 
 export const className = `
   user-select: none;
@@ -16,19 +16,29 @@ export const className = `
 const styles = {
   seperator: css`
     position: relative;
+    color: rgba(236, 239, 244, 0.2);
+  `,
+  seperatorColon: css`
+    position: relative;
     top: -1px;
     color: rgba(236, 239, 244, 0.2);
-  `
+  `,
 }
 
 export const render = ({ output }) => {
-  const hours = output.slice(0, 2)
-  const minutes = output.slice(2, 4)
+  const month = output.slice(0, 2)
+  const day = output.slice(2, 4)
+  const hour = output.slice(4, 6)
+  const minute = output.slice(6, 8)
   return (
     <div>
-      {hours}
-      <span className={styles.seperator}>:</span>
-      {minutes}
+      {month}
+      <span className={styles.seperator}>-</span>
+      {day}
+      <span className={styles.seperator}>T</span>
+      {hour}
+      <span className={styles.seperatorColon}>:</span>
+      {minute}
     </div>
   )
 }
