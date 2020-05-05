@@ -5,11 +5,17 @@ export const command = 'calendar.widget/lib/get.sh'
 
 export const className = `
   user-select: none;
-  top: 32px;
+  top: 24px;
   left: 16px;
 `
 
 const styles = {
+  calendar: css`
+    font-family: FiraCode-Medium;
+    color: rgba(236, 239, 244, 0.2);
+    font-size: 12px;
+    line-height: 24px;
+  `,
   cell: css`
     position: absolute;
     height: 24px;
@@ -18,7 +24,7 @@ const styles = {
     color: rgba(236, 239, 244, 0.2);
     font-size: 12px;
     line-height: 24px;
-  `
+  `,
 }
 
 export const render = ({ output }) => {
@@ -42,10 +48,7 @@ export const render = ({ output }) => {
   const today = new Date().getDate().toString()
 
   // populate cells
-  const calendar = parts[1]
-    .split('\n')
-    .slice(2)
-    .join('\n')
+  const calendar = parts[1].split('\n').slice(2).join('\n')
   const pad = ~~(calendar.indexOf('1') / 3)
   const dates = calendar
     .replace(/\s+/g, ' ')
@@ -56,30 +59,31 @@ export const render = ({ output }) => {
   const cells = [...Array(pad).fill(-1), ...dates].map((d) => ({
     date: d,
     today: d === today,
-    event: events[d]
+    event: events[d],
   }))
 
   return (
-    <div>
+    <pre className={styles.calendar}>
       {cells.map(({ date, today, event }, index) => {
-        const x = index % 7
-        const y = ~~(index / 7)
-        return (
-          <div
-            className={styles.cell}
-            style={{
-              top: y * 24,
-              left: x * 24,
-              fontFamily: today ? 'FiraCode-Bold' : '',
-              color: today ? '#eceff4' : event ? '#81a1c1' : '',
-              textDecoration: today && event ? 'underline' : ''
-              // color: today || event ? 'rgba(236, 239, 244, 1)' : ''
-            }}
-          >
-            {date === -1 ? '' : date.padStart(2, '0')}
-          </div>
-        )
+        const text = date === -1 ? '  ' : date.padStart(2, '0')
+        const spacing = ' '
+        const newline = (index + 1) % 7 === 0 ? '\n' : ''
+        const el =
+          today || event ? (
+            <span
+              style={{
+                fontFamily: today ? 'FiraCode-Bold' : '',
+                color: today ? '#eceff4' : event ? '#81a1c1' : '',
+                textDecoration: today && event ? 'underline' : '',
+              }}
+            >
+              {text}
+            </span>
+          ) : (
+            text
+          )
+        return [el, spacing, newline]
       })}
-    </div>
+    </pre>
   )
 }
