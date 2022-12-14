@@ -1,14 +1,14 @@
 import { css } from 'uebersicht'
 
 export const refreshFrequency = 60 * 1000
-export const command = 'date +%m%d%H%M'
+export const command = ':' // noop
 
 export const className = `
   user-select: none;
-  top: 1px;
+  top: 0px;
   left: 16px;
   color: rgba(236, 239, 244, 1);
-  font-family: FiraCode-Medium;
+  font-family: Liga SFMono Nerd Font, JetBrains Mono, FiraCodeNerdFontComplete-Retina;
   font-size: 12px;
   line-height: 16px;
 `
@@ -26,10 +26,18 @@ const styles = {
 }
 
 export const render = ({ output }) => {
-  const month = output.slice(0, 2)
-  const day = output.slice(2, 4)
-  const hour = output.slice(4, 6)
-  const minute = output.slice(6, 8)
+  const date = new Date().toLocaleString([], {
+    month: '2-digit',
+    day: '2-digit',
+  })
+  const time = new Date().toLocaleString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  })
+
+  const [day, month] = date.split('/')
+  const [hour, minute] = time.split(':')
   return (
     <div>
       {month}
